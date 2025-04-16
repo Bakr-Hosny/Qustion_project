@@ -1,0 +1,43 @@
+@extends('dashboard.layouts.master')
+@section('title', "hello")
+@section('css')
+
+@endsection
+@section('content')
+    <div class="container my-5 shadow-lg p-4 bg-white">
+        <h3 class="mb-4">Questions List</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+
+            <tr>
+                <th class="text-center">Question</th>
+                <th class="text-center">Correct Answer</th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Operation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                @foreach( $questions as $question )
+                <td>{{ $question->question}}</td>
+                <td>{{ $question->correct_answer }}</td>
+                <td class="text-center">{{ $question->type }}</td>
+                <td class="text-center">
+                    <a href="#" class="btn btn-sm btn-outline-success me-1">
+                        <i class="bi bi-pencil-square"></i> Edit</a>
+
+                    <form action="#" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this question?')">Delete</button>
+                    </form>
+                </td>
+                @endforeach
+            </tr>
+            </tbody>
+        </table>
+    </div>
+@endsection
+@section('js')
+
+@endsection
