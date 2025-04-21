@@ -19,70 +19,6 @@
     <ul class="side-menu">
 
 
-        <x-dashboard.aside :details="[
-            'name' => 'صندوق البريد',
-            'icon' => '<i class=\'fa-regular fa-envelope\'></i>',
-            'link' => 'mail',
-        ]" /><!-- End mailbox -->
-
-
-
-
-
-
-        <x-dashboard.aside :details="[
-            'name' => 'الأسئلة',
-            'icon' => '<i class=\'fa-regular fa-circle-question\'></i>',
-            'sub_menu' => [
-                [
-                    'name' => 'جميع الأسئلة',
-                    'link' => 'questions/index',
-                ],
-                [
-                    'name' => 'اضافة سؤال جديد',
-                    'link' => 'questions/create',
-                ],
-            ],
-        ]" /><!-- End Questions -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <li class="side-item">
-            <a target="__blank" href="{{ url('') }}">
-                <span class="side-icon"><i class="fa-solid fa-globe"></i></span>
-                <span class="side-name-lable">زيارة الموقع</span>
-            </a>
-        </li><!-- End Visit -->
-
 
 
         <!--
@@ -92,12 +28,6 @@
         -->
         <li class="side-item-category">النظام</li>
 
-        <x-dashboard.aside :details="[
-            'name' => trans('aside.Admins'),
-            'icon' => '<i class=\'fa-solid fa-user-gear\'></i>',
-            'link' => 'admins',
-        ]" /><!-- End Admins -->
-
         {{-- <x-dashboard.aside :details="[
             'name' => trans('aside.Roles'),
             'icon' => '<i class=\'fa-solid fa-unlock\'></i>',
@@ -106,7 +36,7 @@
 
 
 
-        <x-dashboard.aside :details="[
+        <x-dashboard.studentAside :details="[
             'name' => 'الإعدادات العامة',
             'icon' => '<i class=\'fa-solid fa-gear\'></i>',
             'link' => 'settings',
@@ -116,7 +46,7 @@
 
 
         <li class="side-item mb-5">
-            <form action="{{ route('logout') }}" method="POST">
+            <form action="{{ route('userLogout') }}" method="Get">
                 @csrf
                 <button type="submit" class=" w-100 d-block">
                     <a class=" w-100 d-block">

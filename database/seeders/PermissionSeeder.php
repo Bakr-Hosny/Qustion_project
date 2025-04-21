@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use App\Models\Dashboard\Admin\Admin;
 use Spatie\Permission\Models\Permission;
@@ -30,8 +31,8 @@ class PermissionSeeder extends Seeder
             'l_name'   => "Tech",
             'full_name'  => "Alsite Tech",
             'email'    => 'admin@gmail.com',
-            'password' => '123',
-        ]);
+            'password'   => Hash::make('123'),
+            ]);
         $userOwner->assignRole($owner);
         //}
     }

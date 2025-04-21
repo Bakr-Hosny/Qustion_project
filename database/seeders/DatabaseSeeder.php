@@ -15,12 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
         $this->call([
             LanguageSeeder::class,
             PermissionSeeder::class, // Permission Will Set Admin Onwer
             CategoriesSeeder::class,
             SettingSeeder::class,
             MailsSeeder::class,
+            SubjectSeeder::class,
+            QustionSeeder::class,
 
 
         ]);

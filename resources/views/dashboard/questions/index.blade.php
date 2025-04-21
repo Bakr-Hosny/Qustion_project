@@ -17,10 +17,20 @@
             </tr>
             </thead>
             <tbody>
+            @foreach( $questions as $question )
+                @php
+                    $options = json_decode($question->options, true);
+                @endphp
             <tr>
-                @foreach( $questions as $question )
-                <td>{{ $question->question}}</td>
-                <td>{{ $question->correct_answer }}</td>
+
+                <td>{{ \Illuminate\Support\Str::limit($question->question, 50, '...') }}</td>
+                @foreach( $options as $key => $value)
+                    @if( $key == $question->correct_answer)
+                        <td>{{ $value }}</td>
+                    @endif
+
+                @endforeach
+
                 <td class="text-center">{{ $question->type }}</td>
                 <td class="text-center">
                     <a href="#" class="btn btn-sm btn-outline-success me-1">
@@ -32,8 +42,9 @@
                         <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this question?')">Delete</button>
                     </form>
                 </td>
-                @endforeach
+
             </tr>
+            @endforeach
             </tbody>
         </table>
     </div>

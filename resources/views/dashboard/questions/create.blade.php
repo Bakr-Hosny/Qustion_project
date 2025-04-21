@@ -1,155 +1,138 @@
 @extends('dashboard.layouts.master')
-@section('title', $pageTitle)
+@section('title', "question page")
 @section('css')
 
 @endsection
 @section('content')
 
 
+<div class="row">
+        <div class="col-md-12 mb-30">
+            <div class="card card-statistics h-100">
+                <div class="card-body">
 
-    @if ($qType == null)
-        <h1 class="mt-5 text-center mb-4">حدد نوع السؤال</h1>
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <a href="?type=لفظي">
-                    <div class="box text-center">
-                        <img src="{{ asset('dashboard/images/linguistic.png') }}" alt="">
-                        <h1 class=" font-weight-600 text-main text-center mt-2 ">لفظي</h1>
-                    </div>
-                </a>
-            </div>
+                    @if(session()->has('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{ session()->get('error') }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                    <div class="col-xs-12">
+                        <div class="col-md-12">
+                            <br>
+                            <form action="{{ route('questions.store') }}" method="post" autocomplete="off" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="title"> السؤال</label>
+                                        <textarea name="question" class="form-control" id="exampleFormControlTextarea1"
+                                                  rows="4"></textarea>
+                                    </div>
+                                </div>
 
-            <div class="col-md-4">
-                <a href="?type=كمي">
-                    <div class="box text-center">
-                        <img src="{{ asset('dashboard/images/tools.png') }}" alt="">
-                        <h1 class=" font-weight-600 text-main text-center mt-2 ">كمي</h1>
+                                <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="academic_year">صوره للسؤال : <span class="text-danger">*</span></label>
+                                            <input type="file" name="photo" multiple>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                       
                     </div>
-                </a>
+                                <br>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="title">الاختيار الاول</label>
+                                        <textarea name="option_1" class="form-control" id="exampleFormControlTextarea1"
+                                                  rows="4"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="title">الاختيار الثاني</label>
+                                        <textarea name="option_2" class="form-control" id="exampleFormControlTextarea1"
+                                                  rows="4"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="title">الاختيار الثالث</label>
+                                        <textarea name="option_3" class="form-control" id="exampleFormControlTextarea1"
+                                                  rows="4"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="title">الاختيار الرابع</label>
+                                        <textarea name="option_4" class="form-control" id="exampleFormControlTextarea1"
+                                                  rows="4"></textarea>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="title"> الاجابه الصحيحه</label>
+                                        <textarea name="correct_answer" class="form-control"></textarea>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="title"> شرح الاجابه</label>
+                                        <textarea name="explane_answer" class="form-control" ></textarea>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="Grade_id">اسم الاختبار : <span
+                                                    class="text-danger">*</span></label>
+                                            <select class="custom-select mr-sm-2" name="subject_id">
+                                                <option selected disabled>حدد اسم الاختبار...</option>
+                                                @foreach($subjects as $subject)
+                                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="Grade_id">النوع : <span class="text-danger">*</span></label>
+                                            <select class="custom-select mr-sm-2" name="type" onchange="toggleOptions()">
+                                                <option selected disabled> حدد الدرجة...</option>
+                                                <option value="multiple_choice">Multiple Choice</option>
+                                                <!-- <option value="true_false">True / False</option>
+                                                <option value="short_answer">Short Answer</option> -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">حفظ البيانات</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    @else
-        <x-dashboard.links-bar :links="[
-            [
-                'name' => 'الأسئلة',
-                'link' => adminUrl('messages'),
-            ],
-            [
-                'name' => $pageTitle,
-            ],
-        ]" />
-
-
-        <section class="mb-5">
-
-            <form class="fo rm" action="{{ route('questions.store') }}" method="POST" enctype="multipart/form-data">
-                <div class="row justify-content-center">
-                    @csrf
-                    <input type="hidden" name="type" value="{{ $qType }}">
-                    <div class="col-xl-8 col-md-12">
-
-                        <x-panel-with-heading title="البيانات الرئيسية">
-
-                            <x-form-group :properties="[
-                                'select' => [
-                                    'name' => 'category_id',
-                                    'list' => $categories,
-                                    'options' => ['required', 'placeholder' => 'ما هو تصنيف السؤال ؟'],
-                                ],
-                                'label' => [
-                                    'text' => 'تصنيف السؤال',
-                                    'options' => [
-                                        'class' => 'required',
-                                    ],
-                                ],
-                            ]" /><!-- category_id -->
-
-                            <x-form-group :properties="[
-                                'textarea' => [
-                                    'name' => 'question_text',
-                                    'options' => ['required', 'rows' => 3],
-                                ],
-                                'label' => [
-                                    'text' => 'نص السؤال',
-                                    'options' => [
-                                        'class' => 'required',
-                                    ],
-                                ],
-                            ]" /><!-- question_text -->
-
-                            <label class=" required mb-2">إختيارات السؤال</label>
-                            <div class="row">
-                                @for ($i = 0; $i <= 3; $i++)
-                                    <div class="col-md-12">
-                                        <x-form-group :properties="[
-                                            'input' => [
-                                                'name' => 'option_text[]',
-                                                'type' => 'text',
-                                                'options' => [
-                                                    'required',
-                                                    'placeholder' => 'الإختيار رقم ( ' . $i + 1 . ' )',
-                                                ],
-                                            ],
-                                        ]" /><!-- option_text -->
-                                    </div>
-                                @endfor
-                            </div>
-                            <x-form-group :properties="[
-                                'textarea' => [
-                                    'name' => 'question_explanation',
-                                    'options' => ['rows' => 1],
-                                ],
-                                'label' => [
-                                    'text' => 'الاجابه الصحيحه ',
-                                ],
-                            ]" /><!-- question_explanation -->
-
-                            <x-form-group :properties="[
-                                'textarea' => [
-                                    'name' => 'question_explanation',
-                                    'options' => ['rows' => 6],
-                                ],
-                                'label' => [
-                                    'text' => 'شرح للسؤال',
-                                ],
-                            ]" /><!-- question_explanation -->
-
-                            <x-form-group :properties="[
-                                'textarea' => [
-                                    'name' => 'question_notes',
-                                    'options' => ['rows' => 5],
-                                ],
-                                'label' => [
-                                    'text' => 'ملاحظات',
-                                ],
-                            ]" /><!-- question_notes -->
-
-
-                        </x-panel-with-heading><!-- end box -->
-
-
-                        <x-panel-with-heading title="صورة توضيحية">
-                            <x-form-group class="mb-0" :properties="[
-                                'input' => [
-                                    'name' => 'question_images[]',
-                                    'type' => 'file',
-                                    'options' => [
-                                        'accept' => 'image/*',
-                                        'multiple',
-                                    ],
-                                ],
-                            ]" /><!-- question_images -->
-                        </x-panel-with-heading><!-- end box -->
-
-
-                        <button type="submit" class=" btn btn-main px-5">اضافة السؤال</button>
-                    </div><!--  Content -->
-
-                </div><!-- Row -->
-            </form><!-- End Form -->
-
-        </section><!-- End Section -->
-    @endif
+    </div>
+    <!-- row closed -->
+    <script>
+        function toggleOptions() {
+            const type = document.getElementById('questionType').value;
+            const optionsDiv = document.getElementById('optionsContainer');
+            optionsDiv.style.display = type === 'multiple_choice' ? 'block' : 'none';
+        }
+        toggleOptions();
+    </script>
 
 
 @endsection

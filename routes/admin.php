@@ -74,6 +74,35 @@ Route::prefix(adminPrefix())->group(function () {
 
 
 
+        Route::prefix('subjects')->group(function () {
+            Route::controller(\App\Http\Controllers\SubjectController::class)->group(function () {
+                // All
+                //Route::get('getAllQuestions', 'getAllQuestions')->name('questions.getAllQuestions');
+                // Create
+
+
+                Route::get('create', 'create')->name('subjects.create');
+                Route::post('store', 'store')->name("subjects.store");
+                Route::get('index', 'index')->name("subjects.index");
+                Route::get('destroy', 'destroy')->name("subjects.destroy");
+                // // Update
+                // Route::get('edit/{id}', 'edit');
+                // Route::post('update', 'update')->name("project-update");
+                // // Actions
+                // Route::delete('destroy', 'destroy')->name('project-destroy');
+                // // Get Section Row
+                // Route::post('get-row-from-sections', 'getRow');
+
+                // // Destroy
+                // Route::delete('destroy-sub-image', 'deleteSubImage')->name('admin.products.sub.image.destroy');
+
+                // Route::post('reorder', 'reorder')->name('projects.reorder');
+            });
+        });
+
+
+
+
 
 
 
